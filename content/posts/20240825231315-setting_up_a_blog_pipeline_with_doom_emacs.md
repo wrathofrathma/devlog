@@ -115,6 +115,11 @@ Most people configure capture templates for org-roam to just include this headin
 ```
 
 
+### Deploying to github pages {#deploying-to-github-pages}
+
+<https://quartz.jzhao.xyz/hosting>
+
+
 ## References {#references}
 
 -   <https://ox-hugo.scripter.co/doc/auto-export-on-saving/>
