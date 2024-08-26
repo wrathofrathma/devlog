@@ -1,7 +1,9 @@
 ---
 title: "Welcome to the trough"
 author: ["Rathma"]
-tags: ["moc"]
 draft: false
 ---
 
+Someday we'll insert a description or something here. 
+
+Some links at the very least
