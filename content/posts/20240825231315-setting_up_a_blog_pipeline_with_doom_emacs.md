@@ -1,6 +1,6 @@
 ---
 title: "Setting up a blog pipeline with doom emacs"
-author: ["Christopher Arausa"]
+author: ["Rathma"]
 date: 2024-08-26T00:00:00-04:00
 lastmod: 2024-08-26T00:00:00-04:00
 tags: ["moc"]
