@@ -82,7 +82,7 @@ const config: QuartzConfig = {
           // Tag background lol
           highlight: "#FFF2DA",
           // Unused from what I can tell
-          textHighlight: "#888888",
+          textHighlight: "#888888"
         },
         darkMode: {
           // light: "#1e1e2e",
@@ -104,7 +104,7 @@ const config: QuartzConfig = {
           tertiary: "#b4befe",
           highlight: "#302d41",
           // Unused from what I can tell
-          textHighlight: "#888888",
+          textHighlight: "#888888"
         },
       },
     },
