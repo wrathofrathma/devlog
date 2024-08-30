@@ -2,8 +2,8 @@
 title: "Setting up a blog pipeline with doom emacs"
 author: ["Rathma"]
 date: 2024-08-26T00:00:00-04:00
-lastmod: 2024-08-26T00:00:00-04:00
-tags: ["moc"]
+lastmod: 2024-08-30T00:00:00-04:00
+tags: ["moc", "emacs"]
 draft: false
 ---
 
@@ -95,12 +95,14 @@ To flag files in org-roam to not be exported, you can add the heading `#+hugo_ta
 Most people configure capture templates for org-roam to just include this heading by default. I have stolen the capture templates and auto update of timestamp code from
 <https://www.asterhu.com/post/20240220-publish-org-roam-with-quartz-oxhugo>
 
+The only thing I changed from their setup was including the timestamp in the filename still.
+
 ```elisp
 ;; Configure org-roam template]
 (setq org-roam-capture-templates
       '(("o" "moc" plain
          "\n%?\n\n"
-         :if-new (file+head "${slug}.org" "#+title: ${title}\n#+filetags: :moc:\n#+hugo_section: posts\n#+date: %u\n#+hugo_lastmod: %u\n#+hugo_tags: noexport\n")
+         :if-new (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+filetags: :moc:\n#+hugo_section: posts\n#+date: %u\n#+hugo_lastmod: %u\n#+hugo_tags: noexport\n")
          :immediate-finish t
          :unnarrowed t
          :empty-lines-after 1)))
