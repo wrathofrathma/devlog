@@ -1,5 +1,5 @@
 ---
-title: "Emacs ssh-deploy"
+title: "ssh-deploy"
 author: ["Rathma"]
 date: 2024-08-28T00:00:00-04:00
 lastmod: 2024-08-30T00:00:00-04:00
