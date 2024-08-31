@@ -2,19 +2,42 @@
 title: "Setting up a blog pipeline with doom emacs"
 author: ["Rathma"]
 date: 2024-08-26T00:00:00-04:00
-lastmod: 2024-08-30T00:00:00-04:00
+lastmod: 2024-08-31T00:00:00-04:00
 tags: ["moc", "emacs"]
 draft: false
 ---
 
 ## Overview {#overview}
 
-This is my personal documentation on the steps I took to configure a blog pipeline for
+This post serves as personal documentation on the steps I took to configure this blog pipeline. While all of this information is already publicly available, I hope it might also help someone else by providing a consolidated reference.
 
--   writing posts in org-roam
--   exporting posts to markdown with ox-hugo
--   uploading the content with git
--   rendering a static website with quartz
+The pipeline operates as follows:
+
+1.  Posts are written within Emacs, in org-mode using org-roam for note management
+2.  Ox-hugo exports our posts from `.org` to `.md` and places them in the blog project folder
+3.  Changes are pushed to Github via git
+4.  Quartz + Github Pages will statically render the website
+
+
+## Why org-mode? Why not obsidian? {#why-org-mode-why-not-obsidian}
+
+Honestly, there are many other solutions that are more convenient and work perfectly fine. I've even used a few of them and over the years have gone back and forth between note taking softwares, org-mode, notion, obsidian, etc. However I always find myself returning to org-mode.
+
+What keeps bringing me back to org-mode is the integration and ease of searching my notes from within the same editor that I use for development. This makes development and note taking far more convenient.
+
+It's even better that it supports powerful note linking in a similar way as Obsidian.
+
+
+## What is org-roam (tl;dr)? {#what-is-org-roam--tl-dr}
+
+Their github README.md does a good job of describing the overview of org-roam.
+
+> Org-roam is a plain-text knowledge management system. It brings some of Roam's more powerful features into the Org-mode ecosystem.
+>
+> Org-roam borrows principles from the Zettelkasten method, providing a solution for non-hierarchical note-taking. It should also work as a plug-and-play solution for anyone already using Org-mode for their personal wiki.
+
+<https://github.com/org-roam/org-roam>
+<https://zettelkasten.de/overview/>
 
 
 ## Installation {#installation}
@@ -22,7 +45,7 @@ This is my personal documentation on the steps I took to configure a blog pipeli
 
 ### ox-hugo {#ox-hugo}
 
-Since I'm using doom emacs, installation is as simple as enabling the +hugo flag in your `.init.el`
+Installing ox-hugo within Doom Emacs is straightfoward. Just enable the `+hugo` flag on org in your `init.el` within your emacs config.
 
 ```elisp
 (org                ; organize your plain life in plain text
@@ -30,12 +53,12 @@ Since I'm using doom emacs, installation is as simple as enabling the +hugo flag
         +roam2)            ; Enables integration with org-roam v2
 ```
 
-Then running `doom sync` to get the package installed.
+After that, run `doom sync` to install the package.
 
 
 ### quartz {#quartz}
 
-Quartz can be installed very quickly. This snippet is from their [getting started page.](https://quartz.jzhao.xyz/#-get-started%20)
+Quartz can be set up quickly. Below is the installation process, adapted from their  [getting started page.](https://quartz.jzhao.xyz/#-get-started%20)
 
 ```bash
 git clone https://github.com/jackyzha0/quartz.git
@@ -44,7 +67,7 @@ npm i
 npx quartz create
 ```
 
-The command will walk you through a few questions
+During the setup, you'll be prompted to configure a few options
 
 -   Choose how to initialize the content in '/path/to/content'
     -   Empty Quartz
@@ -66,14 +89,16 @@ npx quartz create
 
 ### ox-hugo configuration {#ox-hugo-configuration}
 
-ox-hugo can be configured to either
+The biggest decision we have to make within the ox-hugo configuration is how you want to store your posts. Ox-hugo provides two options
 
-1.  treat each major heading in a file as a separate post
-2.  treat each file as a separate post
+1.  Treat each major heading in a file as a separate post
+2.  Treat each file as a separate post
 
-Since I prefer org-roam, I am setting up my org-roam directory to treat each file as a separate post.
+Since I prefer org-roam, I've set up my org-roam directory to treat each file as a separate post.
 
-By default ox-hugo looks for a `.dir-locals.el` file within the project root or directory root of any org file.
+This configuration can live within your main Emacs configuration, but that will also apply the settings to ALL org mode files everywhere.
+
+The preferred method is using directory-local configuration by creating a `.dir-locals.el` within our org-roam directory. Whenever we edit a file within this directory, Emacs will use whatever settings we define there.
 
 I placed the following `.dir-locals.el` file in the root of my org-roam directory.
 
@@ -85,17 +110,18 @@ I placed the following `.dir-locals.el` file in the root of my org-roam director
              )))
 ```
 
-With my `org-hugo-base-dir` set to `~/dev/devlog`, I can expect exported files to be generated into `~/dev/devlog/content/posts`
+With my `org-hugo-base-dir` set to `~/dev/devlog`, I can expect exported files to be generated into `~/dev/devlog/content/{catgory}`
 
 
 ### Writing files to not be exported {#writing-files-to-not-be-exported}
 
-To flag files in org-roam to not be exported, you can add the heading `#+hugo_tags: noexport` to any org file.
+To prevent specific files in org-roam from being exported, you can add the heading `#+hugo_tags: noexport` to any org file.
 
-Most people configure capture templates for org-roam to just include this heading by default. I have stolen the capture templates and auto update of timestamp code from
-<https://www.asterhu.com/post/20240220-publish-org-roam-with-quartz-oxhugo>
+Many users configure their org-roam capture templates to include this heading by default. I borrowed the capture template and auto-update of timestamp code from <https://www.asterhu.com/post/20240220-publish-org-roam-with-quartz-oxhugo>
 
-The only thing I changed from their setup was including the timestamp in the filename still.
+The only change I made to their setup was retaining the timestamp in the filename.
+
+If you add the following snippet to your emacs' `config.el`, whenever we create a new org-roam file, we will have hugo related headers already set for us, and the timestamp will be updated whenever we save a file.
 
 ```elisp
 ;; Configure org-roam template]
@@ -119,7 +145,12 @@ The only thing I changed from their setup was including the timestamp in the fil
 
 ### Deploying to github pages {#deploying-to-github-pages}
 
-<https://quartz.jzhao.xyz/hosting>
+Deploying to GitHub Pages is straightforward. I followed the instructions provided by the Quartz team <https://quartz.jzhao.xyz/hosting>
+
+Key steps:
+
+1.  Add their `deploy.yml` to the `project/.github/workflows/deploy.yml` to automatically build the website on commit
+2.  In the settings of the GitHub project, under "Pages", set the "Source" to "Github Actions"
 
 
 ## References {#references}
