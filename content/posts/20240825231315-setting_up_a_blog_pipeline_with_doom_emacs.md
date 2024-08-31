@@ -151,6 +151,7 @@ Key steps:
 
 1.  Add their `deploy.yml` to the `project/.github/workflows/deploy.yml` to automatically build the website on commit
 2.  In the settings of the GitHub project, under "Pages", set the "Source" to "Github Actions"
+3.  Either commit changes with `npx quartz sync` or just pushing commits manually
 
 
 ## References {#references}
