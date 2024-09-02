@@ -2,6 +2,7 @@
 title: "Welcome to the trough"
 author: ["Rathma"]
 draft: false
+tags: ["moc"]
 ---
 
 You came to the right place if you're looking for slop in the form of loose technical documentation.
